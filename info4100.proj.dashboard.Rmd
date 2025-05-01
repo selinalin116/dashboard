@@ -86,38 +86,55 @@ Go through the planning / sketching process described in the reading about dashb
 *Planning for the student dashboard*
 
 * For whom? Who will use it and what is their background?
-    + [add your answer here]
-    + [add your answer here]
+    + Who: Students enrolled in the Business Intelligence class will use it. 
+    + Background: understand how they are doing in the class
     
 * Why? What is the goal? What questions to answer?
-    + [add your answer here]
-    + [add your answer here]
+    + Goal: inform students of their progress in the class by tracking individual attendance, quiz performance, skill level, and compare how the student is doing compared to class averages.
+    + Questions: 
+          "How well am I doing in the class?" 
+          "Do I attend class regularly?" 
+          "How am I doing relative to my peers" 
 
 * What? What data to show and what is its structure?
-    + [add your answer here]
-    + [add your answer here]
+    + We can show attendance data, quiz scores across all sessions, average temperature checks, self-reported skill level vs class average
+    + Structure: 
+        Attendance Table: student ID, session date, attendance status
+        Quiz Scores Table: student ID, quiz number, quiz score, session number
+        Temperature Checks Table: student ID, session date, quiz score
+        Skills Survey Table: student ID, skill area (e.g., SQL), self-rating (e.g., 1–5 scale)
         
 * How? How will visualizations support the goal?
-    + [add your answer here]
-    + [add your answer here]
+    + Progress bar to display attendance
+    + Line Chart: Individual quiz scores vs. class average over time, and average temperature checks over time
+    + Bar chart: Self-reported skill level vs class average
     
 *Planning for the teacher dashboard*
 
 * For whom? Who will use it and what is their background?
-    + [add your answer here]
-    + [add your answer here]
+    + Teacher for Business Intelligence class
+    + Background: Wants to gain insights about the students in the class and how they are performing
     
 * Why? What is the goal? What questions to answer?
-    + [add your answer here]
-    + [add your answer here]
+    + Goal: To better adjust content and teaching strategies based on insights
+    + Questions:
+        "Which sessions had the lowest attendance?"
+        "How much do the average quiz scores per student vary?"
+        "How do graduate vs. undergraduate students perform?"
 
 * What? What data to show and what is its structure?
-    + [add your answer here]
-    + [add your answer here]
-        
+    + Data: session-level attendance, distribution and averages of quiz scores by student, skill levels from pre-course surveys, demographics (graduate/undergraduate status)
+    + Structure:
+        Attendance Table: session number, session date, student ID, attendance
+        Quiz Scores Table: student ID, quiz number, score
+        Student Demographics Table: student ID, level (grad/undergrad), major
+        Skills Table: student ID, skill area, rating
+            
 * How? How will visualizations support the goal?
-    + [add your answer here]
-    + [add your answer here]
+    + Histogram: Distribution of quiz scores
+    + Box Plot: Graduate vs. undergraduate performance comparison
+    + Line Chart: Attendance rate over time
+    + Bar Chart: Average scores for skills like SQL, programming from the skills survey
 
 **Question 2:** Based on your plan above, make a sketch of what the dashboard would look like. See this week's readings for examples. Be detailed about what kinds of data points and visualizations you want to see in different parts of the page. Consider the user experience and how you should position more general information compared to more specific information, and where you may need some additional explanation to help the viewer understand a graphic, for example. In your sketch, it is useful to give labels to different objects, because in the steps below you can split up work between team members and the labels will help you connect the UI with the data objects. Show your sketches in section to get feedback from the teaching team.
 
@@ -128,6 +145,8 @@ Each dashboard should contain at least 4 data visualizations. You may include an
 This is where you generate the dashboard layout. You are given a very basic wire frame example for the dashboard below. For more information on how R Shiny Dashboards work, look at https://rstudio.github.io/shinydashboard/get_started.html and https://rstudio.github.io/shinydashboard/structure.html. You can add different types of content into a `fuidRow()`. In the starter code, there are 2 rows of content: the first has two little info boxes; the second has two larger viz boxes. You can add more rows and change what is in them as you wish. Follow the naming convention, e.g. `inst.info1` is the first info box for instructors.
 
 Your team can split up the tasks. Some work on creating the UI (this part), while others work on pre-processing the data and creating the statistics and visualizations that will populate the UI (next part).
+
+
 
 **Question 3:** Create the layout for the dashboard tabs. You can have as many "tabs" as you like. Each tab is the content displayed when the user clicks on one of the menu items (so it is the page content). Here you are just specifying the wire frame i.e. **what goes where on the pages**, not what goes into it.
 
