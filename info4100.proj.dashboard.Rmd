@@ -239,13 +239,101 @@ Use the space below to be ready for your information visualizations in the dashb
 
 ```{r}
 #######################################
-####### BEGIN INPUT             #######
+####### BEGIN INPUT: Part 3    #######
 #######################################
 
+library(dplyr)
+library(tidyr)
 
+## –– Instructor data –– ##
+
+# (1) total distinct students
+inst_total_students <- experience %>%
+  distinct(STUDENT_KEY) %>%
+  nrow()
+
+# (2) overall attendance rate
+inst_attendance_rate <- quiz %>%
+  summarise(rate = mean(ATTENDED, na.rm = TRUE)) %>%
+  pull(rate)
+
+# (3) attendance over time (by session)
+inst_attendance_ts <- quiz %>%
+  group_by(SESSION_NUMBER) %>%
+  summarise(att_rate = mean(ATTENDED, na.rm = TRUE),
+            .groups = "drop")
+
+# (4) skill‐survey in long form
+skill_cols <- c("DATABASE_SCORE",
+                "SQL_SCORE",
+                "PROGRAMING_SCORE",
+                "STORED_PROC_SCORE",
+                "ETL_SCORE",
+                "DATA_VIS_SCORE",
+                "REQUIREMENT_GATHER_SCORE")
+
+inst_skill_dist <- experience %>%
+  select(STUDENT_KEY, all_of(skill_cols)) %>%
+  pivot_longer(all_of(skill_cols),
+               names_to  = "skill",
+               values_to = "score")
+
+# (5) quiz scores by program (for UG vs Grad boxplot)
+quiz_with_prog <- quiz %>%
+  left_join(experience %>% select(STUDENT_KEY, PROG),
+            by = "STUDENT_KEY")
+
+inst_quiz_by_prog <- quiz_with_prog %>%
+  filter(!is.na(PROG)) %>%
+  select(PROG, QUIZ_SCORE)
+
+## –– Student‐level summaries –– ##
+# pick one reference student (first in the table)
+ref_student <- experience$STUDENT_KEY[1]
+
+stud_records <- quiz %>%
+  filter(STUDENT_KEY == ref_student) %>%
+  arrange(SESSION_NUMBER)
+
+# (1) attendance
+stud_attendance_df <- stud_records %>%
+  mutate(session_idx = row_number(),
+         cum_att     = cumsum(ATTENDED),
+         cum_rate    = cum_att / session_idx)
+
+# (2) average quiz score
+stud_avg_quiz <- stud_records %>%
+  summarise(avg = mean(QUIZ_SCORE, na.rm = TRUE)) %>%
+  pull(avg)
+
+# (3) quiz time series
+stud_quiz_ts <- stud_records %>%
+  select(SESSION_NUMBER, QUIZ_SCORE)
+
+# (4) temperature checks time series
+stud_temp_ts <- stud_records %>%
+  select(SESSION_NUMBER, AVG_T_CLICKER)
+
+# (5) compare this student’s skills vs class average
+stud_skill <- experience %>%
+  filter(STUDENT_KEY == ref_student) %>%
+  select(all_of(skill_cols)) %>%
+  pivot_longer(everything(),
+               names_to  = "skill",
+               values_to = "my_score")
+
+class_skill_avg <- experience %>%
+  summarise(across(all_of(skill_cols),
+                   ~ mean(.x, na.rm = TRUE))) %>%
+  pivot_longer(everything(),
+               names_to  = "skill",
+               values_to = "class_avg")
+
+stud_skill_comp <- left_join(stud_skill, class_skill_avg, by = "skill")
 
 #######################################
 #######################################
+
 ```
 
 # Part 4: Prepare All Data Visualizations
