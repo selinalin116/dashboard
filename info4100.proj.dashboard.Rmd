@@ -129,7 +129,7 @@ Your team can split up the tasks. Some work on creating the UI (this part), whil
 
 ```{r}
 #######################################
-####### BEGIN INPUT: Question 3 #######
+####### BEGIN INPUT #######
 #######################################
 
 # Example of a tab (i.e. page)
@@ -239,7 +239,7 @@ Use the space below to be ready for your information visualizations in the dashb
 
 ```{r}
 #######################################
-####### BEGIN INPUT: Part 3    #######
+####### BEGIN INPUT             #######
 #######################################
 
 library(dplyr)
